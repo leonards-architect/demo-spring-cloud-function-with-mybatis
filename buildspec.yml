@@ -12,13 +12,11 @@ phases:
   pre_build:
     commands:
       - echo "Fetching dependencies"
-      - cd HelloWorldFunction
       - ./gradlew clean
 
   build:
     commands:
       - echo "Building the project"
-      - cd HelloWorldFunction
       - ./gradlew build
       - echo "Packaging the SAM application"
       - cd ../
