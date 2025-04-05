@@ -6,18 +6,22 @@ phases:
       java: corretto17
     commands:
       - echo "Installing Gradle"
+      - cd HelloWorldFunction
       - ./gradlew --version
 
   pre_build:
     commands:
       - echo "Fetching dependencies"
+      - cd HelloWorldFunction
       - ./gradlew clean
 
   build:
     commands:
       - echo "Building the project"
+      - cd HelloWorldFunction
       - ./gradlew build
       - echo "Packaging the SAM application"
+      - cd ../
       - sam build
 
   post_build:
