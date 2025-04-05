@@ -30,6 +30,6 @@ targetCompatibility = 17
 
 tasks.named('jar') {
     manifest {
-        attributes 'Main-Class': 'org.springframework.cloud.function.adapter.aws.FunctionInvoker'
+        attributes 'Main-Class': 'com.example.demo.helloworld.Application'
     }
 }
