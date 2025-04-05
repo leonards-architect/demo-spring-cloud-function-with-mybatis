@@ -1,0 +1,31 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto17
+    commands:
+      - echo "Installing Gradle"
+      - ./gradlew --version
+
+  pre_build:
+    commands:
+      - echo "Fetching dependencies"
+      - ./gradlew clean
+
+  build:
+    commands:
+      - echo "Building the project"
+      - ./gradlew build
+      - echo "Packaging the SAM application"
+      - sam build
+
+  post_build:
+    commands:
+      - echo "Deploying the SAM application"
+      - sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name lambda-spring-cloud-function --capabilities CAPABILITY_IAM
+
+artifacts:
+  files:
+    - '**/*'
+  discard-paths: yes
