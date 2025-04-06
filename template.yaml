@@ -32,6 +32,21 @@ Resources:
       Environment:
         Variables:
           SPRING_CLOUD_FUNCTION_DEFINITION: "auth"
+
+  ApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: HelloWorldAPI
+      StageName: Prod
+      Auth:
+        Authorizers:
+          CustomLambdaAuthorizer:
+            FunctionArn: !GetAtt AuthFunction.Arn
+            Identity:
+              Headers: [ "Authorization" ]
+            AuthorizerPayloadFormatVersion: 2.0
+            EnableSimpleResponses: true
+
   HelloWorldFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
@@ -50,21 +65,10 @@ Resources:
           Properties:
             Path: /hello
             Method: get
-
-  CustomLambdaAuthorizer:
-    Type: AWS::Serverless::Api
-    Properties:
-      Name: CustomLambdaAuthorizerAPI
-      StageName: Prod
-      Auth:
-        DefaultAuthorizer: CustomLambdaAuthorizer
-        Authorizers:
-          CustomLambdaAuthorizer:
-            FunctionArn: !GetAtt AuthFunction.Arn
-            Identity:
-              Headers: [ "Authorization" ]
-            AuthorizerPayloadFormatVersion: 2.0
-            EnableSimpleResponses: true
+            RestApiId: !Ref ApiGateway
+            Auth:
+              Authorizer: CustomLambdaAuthorizer
+              AuthorizationScopes: [ ]
 
   ApplicationResourceGroup:
     Type: AWS::ResourceGroups::Group
@@ -73,12 +77,14 @@ Resources:
         Fn::Sub: ApplicationInsights-SAM-${AWS::StackName}
       ResourceQuery:
         Type: CLOUDFORMATION_STACK_1_0
+
   ApplicationInsightsMonitoring:
     Type: AWS::ApplicationInsights::Application
     Properties:
       ResourceGroupName:
         Ref: ApplicationResourceGroup
       AutoConfigurationEnabled: 'true'
+
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM
