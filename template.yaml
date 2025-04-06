@@ -38,6 +38,7 @@ Resources:
     Properties:
       Name: HelloWorldAPI
       StageName: Prod
+      TracingEnabled: true
       Auth:
         Authorizers:
           CustomLambdaAuthorizer:
@@ -46,6 +47,20 @@ Resources:
               Headers: [ "Authorization" ]
             AuthorizerPayloadFormatVersion: 2.0
             EnableSimpleResponses: true
+      AccessLogSetting:
+        DestinationArn: !GetAtt ApiGatewayLogGroup.Arn
+        Format: '{"requestId":"$context.requestId","ip":"$context.identity.sourceIp","caller":"$context.identity.caller","user":"$context.identity.user","requestTime":"$context.requestTime","httpMethod":"$context.httpMethod","resourcePath":"$context.resourcePath","status":"$context.status","protocol":"$context.protocol","responseLength":"$context.responseLength"}'
+        MethodSettings:
+          - LoggingLevel: INFO
+            DataTraceEnabled: true
+            ResourcePath: "/*"
+            HttpMethod: "*"
+
+  ApiGatewayLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: /aws/apigateway/hello-api
+      RetentionInDays: 7
 
   HelloWorldFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
