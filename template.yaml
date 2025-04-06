@@ -21,6 +21,7 @@ Resources:
   AuthFunction:
     Type: AWS::Serverless::Function
     Properties:
+      CodeUri: HelloWorldFunction
       Handler: org.springframework.cloud.function.adapter.aws.FunctionInvoker::handleRequest
       Runtime: java17
       Architectures:
@@ -28,6 +29,9 @@ Resources:
       MemorySize: 128
       Timeout: 5
       Policies: AWSLambdaBasicExecutionRole
+      Environment:
+        Variables:
+          SPRING_CLOUD_FUNCTION_DEFINITION: "auth"
   HelloWorldFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
@@ -37,9 +41,9 @@ Resources:
       Architectures:
       - x86_64
       MemorySize: 128
-      Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
+      Environment:
         Variables:
-          PARAM1: VALUE
+          SPRING_CLOUD_FUNCTION_DEFINITION: "hello-world"
       Events:
         HelloWorld:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api

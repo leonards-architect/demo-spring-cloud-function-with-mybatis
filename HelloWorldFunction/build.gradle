@@ -33,3 +33,8 @@ tasks.named('jar') {
         attributes 'Main-Class': 'com.example.demo.helloworld.Application'
     }
 }
+
+jar {
+    enabled = true
+    archiveFileName = 'hello-world-function.jar'
+}
