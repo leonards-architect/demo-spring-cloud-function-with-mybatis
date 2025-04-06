@@ -50,6 +50,7 @@ Resources:
               Headers: [ "Authorization" ]
             AuthorizerPayloadFormatVersion: 2.0
             EnableSimpleResponses: true
+            CachingEnabled: false
       MethodSettings:
         - ResourcePath: /*
           HttpMethod: '*'
