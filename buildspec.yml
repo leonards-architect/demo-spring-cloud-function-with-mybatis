@@ -16,8 +16,6 @@ phases:
 
   build:
     commands:
-      - echo "Building the project"
-      - ./gradlew build
       - echo "Packaging the SAM application"
       - cd ../
       - sam build
