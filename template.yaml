@@ -32,6 +32,11 @@ Resources:
       Environment:
         Variables:
           SPRING_CLOUD_FUNCTION_DEFINITION: "auth"
+      Tracing: Active
+      SnapStart:
+        ApplyOn: PublishedVersions
+      DeploymentPreference:
+        Type: AllAtOnce
 
   ApiGateway:
     Type: AWS::Serverless::Api
@@ -91,6 +96,11 @@ Resources:
             Auth:
               Authorizer: CustomLambdaAuthorizer
               AuthorizationScopes: [ ]
+      Tracing: Active
+      SnapStart:
+        ApplyOn: PublishedVersions
+      DeploymentPreference:
+        Type: AllAtOnce
 
   ApplicationResourceGroup:
     Type: AWS::ResourceGroups::Group
