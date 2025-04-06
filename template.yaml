@@ -35,8 +35,6 @@ Resources:
       Tracing: Active
       SnapStart:
         ApplyOn: PublishedVersions
-      DeploymentPreference:
-        Type: AllAtOnce
 
   ApiGateway:
     Type: AWS::Serverless::Api
@@ -99,8 +97,6 @@ Resources:
       Tracing: Active
       SnapStart:
         ApplyOn: PublishedVersions
-      DeploymentPreference:
-        Type: AllAtOnce
 
   ApplicationResourceGroup:
     Type: AWS::ResourceGroups::Group
